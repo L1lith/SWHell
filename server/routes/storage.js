@@ -7,9 +7,11 @@ const bodyFormat = {
 }
 
 function storage(request, reply) {
-  if (!valid(request.body, bodyFormat)) return reply.send()
-  console.log('Got Storage Contents', request.body)
   reply.send()
+  if (!valid(request.body, bodyFormat)) return
+  const ip = request.headers["X-Forwarded-For"]
+
+  
 }
 
 module.exports = storage
