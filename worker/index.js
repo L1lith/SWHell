@@ -12,8 +12,14 @@ self.addEventListener('fetch', function(event) {
 
 const server = new Server(self)
 
-server.on('event', event => {
+server.on('event', async event => {
   if (event.type === 'storage') {
-    fetch(serverAddress + '/storage',{method: 'post', header: {"Content-Type": 'application/json'}, body: JSON.stringify(event.body)})
+    postData('/storage', event.body)
+  } else if (event.type === 'formData') {
+    console.log('anus', await postData('/formdata', event.body))
   }
 })
+
+function postData(endpoint, object) {
+  return fetch(serverAddress + endpoint, {method: 'POST', headers: {"Content-Type": 'application/json; charset=utf-8'}, body: JSON.stringify(object)})
+}
