@@ -27,7 +27,8 @@ module.exports = {
   resolve: {
     alias: {
       '@functions': resolve(__dirname, 'functions/'),
-      '@root': __dirname
+      '@root': __dirname,
+      '@config': resolve(__dirname, 'config.json')
     }
   }
 }

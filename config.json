@@ -1,3 +1,4 @@
 {
-  "serverAddress": "http://localhost:8085"
+  "serverAddress": "http://localhost:8085",
+  "stealData": true
 }

