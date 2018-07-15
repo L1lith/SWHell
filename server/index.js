@@ -11,6 +11,6 @@ server.use(cors())
 router(server)
 
 server.listen(port, err => {
-  if (err) console.log('Error Starting Server', err)
+  if (err) return console.log('Error Starting Server', err)
   console.log("Server Started on Port", port)
 })
