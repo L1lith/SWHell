@@ -1,5 +1,6 @@
 import interceptRequest from '@functions/interceptRequest'
 import {Server} from '2sweet'
+import postData from './postData'
 
 const serverAddress = 'http://localhost:8085'
 
@@ -19,7 +20,3 @@ server.on('event', async event => {
     console.log('anus', await postData('/formdata', event.body))
   }
 })
-
-function postData(endpoint, object) {
-  return fetch(serverAddress + endpoint, {method: 'POST', headers: {"Content-Type": 'application/json; charset=utf-8'}, body: JSON.stringify(object)})
-}
