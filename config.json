@@ -3,5 +3,6 @@
   "steal": {
     "formData": true,
     "storage": true
-  }
+  },
+  "stayAlive": true
 }
