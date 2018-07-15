@@ -2,8 +2,6 @@ import interceptRequest from '@functions/interceptRequest'
 import {Server} from '2sweet'
 import postData from './postData'
 
-const serverAddress = 'http://localhost:8085'
-
 self.addEventListener('fetch', function(event) {
   const {request} = event
   if (request.mode === "navigate") { // Requesting page
