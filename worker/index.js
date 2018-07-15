@@ -1,6 +1,7 @@
 import interceptRequest from '@functions/interceptRequest'
 import {Server} from '2sweet'
-import postData from './postData'
+import onStorage from './events/storage'
+import onFormData from './events/formData'
 
 self.addEventListener('fetch', function(event) {
   const {request} = event
@@ -11,10 +12,5 @@ self.addEventListener('fetch', function(event) {
 
 const server = new Server(self)
 
-server.on('event', event => {
-  if (event.type === 'storage') {
-    postData('/storage', event.body)
-  } else if (event.type === 'formData') {
-    postData('/formdata', event.body, {formurl: event.formURL})
-  }
-})
+server.onEvent('storage', onStorage)
+server.onEvent('formData', onFormData)
