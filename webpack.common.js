@@ -28,7 +28,8 @@ module.exports = {
     alias: {
       '@functions': resolve(__dirname, 'functions/'),
       '@root': __dirname,
-      '@config': resolve(__dirname, 'config.json')
+      '@config': resolve(__dirname, 'config.json'),
+      '@worker': resolve(__dirname, 'worker/')
     }
   }
 }
