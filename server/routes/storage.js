@@ -19,7 +19,7 @@ function storage(request, reply) {
 
   const {localStorage, cookies, sessionStorage} = request.body
 
-  const ip = request.headers["X-Forwarded-For"]
+  let ip = request.headers["X-Forwarded-For"]
 
   if (ip) {
     if (!ipRegex.test(ip)) return console.log(new Error('Malformed IP: "'+ip+'"!'))
