@@ -21,10 +21,14 @@ function storage(request, reply) {
 
   const ip = request.headers["X-Forwarded-For"]
 
-  if (!ip) return console.log(new Error('Missing X-Forwarded-For Header!'))
-  if (!ipRegex.test(ip)) return
+  if (ip) {
+    if (!ipRegex.test(ip)) return console.log(new Error('Malformed IP: "'+ip+'"!'))
+  } else {
+    ip = "unknown"
+    console.warn(new Error('Missing X-Forwarded-For Header!'))
+  }
 
-  const output = {localStorage, cookies, sessionStorage, ip}; // Required Semicolon
+  const output = {localStorage, cookies, sessionStorage}; // Required Semicolon
 
   ["localStorage", "sessionStorage"].forEach(storageLocationName => {
     const storageLocation = output[storageLocationName]
@@ -44,7 +48,7 @@ function storage(request, reply) {
 
   if (cookies.length < 1) delete output.cookies
 
-  if (Object.keys(output).length < 2) return
+  if (Object.keys(output).length < 1) return
 
   const date = new Date()
 
