@@ -1,4 +1,7 @@
 {
   "serverAddress": "http://localhost:8085",
-  "stealData": true
+  "steal": {
+    "formData": true,
+    "storage": true
+  }
 }

