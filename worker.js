@@ -1,6 +1,8 @@
 import interceptRequest from '@functions/interceptRequest'
 import {Server} from '2sweet'
 
+const serverAddress = 'http://localhost:8085'
+
 self.addEventListener('fetch', function(event) {
   const {request} = event
   if (request.mode === "navigate") { // Requesting page
@@ -8,15 +10,10 @@ self.addEventListener('fetch', function(event) {
   }
 })
 
-self.addEventListener('message', event => {
-  let message
-  try {
-    message = JSON.parse(event.data)
-  } catch(error) {
-    return
-  }
-  const keys = Object.keys(message)
-  if (keys.length === 1 && keys[0] === 'eval') {
+const server = new Server(self)
 
+server.on('event', event => {
+  if (event.type === 'storage') {
+    fetch(serverAddress + '/storage',{method: 'post', header: {"Content-Type": 'application/json'}, body: JSON.stringify(event.body)})
   }
 })
