@@ -17,7 +17,7 @@ function formData(request, reply) {
   })
   if (Object.keys(body).length < 1) return reply.send()
 
-  console.log({origin, body, formurl})
+  console.log('Got Form Data', {origin, body, formurl})
 
   reply.send()
 }
