@@ -4,7 +4,7 @@
   "description": "Proof of concept malicious service worker",
   "main": "build.js",
   "dependencies": {
-    "2sweet": "^1.0.3",
+    "2sweet": "^1.0.4",
     "concurrently": "^3.6.0",
     "copy-webpack-plugin": "^4.5.2",
     "fastify": "^1.8.0",
