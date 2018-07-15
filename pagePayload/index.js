@@ -16,8 +16,6 @@ function pagePayload() {
   }
   const client = new Client()
 
-  window.navigator.serviceWorker.controller.addEventListener('message', console.log)
-
   client.on('connected', onConnect.bind(null, client))
 }
 
