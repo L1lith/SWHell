@@ -1,0 +1,17 @@
+{
+  "name": "SWhellServer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "fastify": "^1.8.0",
+    "sandhands": "^1.2.12"
+  }
+}
