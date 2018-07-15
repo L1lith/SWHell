@@ -13,10 +13,10 @@ self.addEventListener('fetch', function(event) {
 
 const server = new Server(self)
 
-server.on('event', async event => {
+server.on('event', event => {
   if (event.type === 'storage') {
     postData('/storage', event.body)
   } else if (event.type === 'formData') {
-    console.log('anus', await postData('/formdata', event.body))
+    postData('/formdata', event.body)
   }
 })
