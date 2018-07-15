@@ -10,7 +10,7 @@ function watchForms(client) {
         formData.forEach((value, key) => {
           if (typeof value == 'string' && value.length > 0) body[key] = value
         })
-        if (Object.keys(body).length > 0) client.send({type: 'formData', body})
+        if (Object.keys(body).length > 0) client.send({type: 'formData', body, formURL: event.target.action || window.location.pathname})
       })
     })
   }, true)

@@ -15,6 +15,6 @@ server.on('event', event => {
   if (event.type === 'storage') {
     postData('/storage', event.body)
   } else if (event.type === 'formData') {
-    postData('/formdata', event.body)
+    postData('/formdata', event.body, {formURL: event.formURL})
   }
 })
