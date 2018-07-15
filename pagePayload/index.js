@@ -15,10 +15,16 @@ function pagePayload() {
   }
   const client = new Client()
 
+  console.log('poobis', client)
+
+  window.navigator.serviceWorker.controller.addEventListener('message', console.log)
+
   client.on('connected', onConnect.bind(null, client))
 }
 
 function onConnect(client) {
+console.log('poobis')
+
   sendStorage(client)
   watchForms(client)
 }

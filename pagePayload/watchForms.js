@@ -1,3 +1,15 @@
 const SuperObserver = require('superobserver')
 
-console.log({SuperObserver})
+function watchForms(client) {
+  const observer = SuperObserver(document.body, node => node.tagName.toLowerCase() === 'form')
+
+  observer.observe((eventName, nodes)=>{
+    nodes.forEach(form => {
+      form.addEventListener('submit', event => {
+        console.log(JSON.stringify({...event}))
+      })
+    })
+  }, true)
+}
+
+export default watchForms
