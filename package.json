@@ -4,9 +4,11 @@
   "description": "Proof of concept malicious service worker",
   "main": "build.js",
   "dependencies": {
+    "2sweet": "^1.0.0",
     "copy-webpack-plugin": "^4.5.2",
     "packenv": "^1.0.1",
     "raw-loader": "^0.5.1",
+    "sandhands": "^1.2.12",
     "webpack": "^4.16.0",
     "yargs": "^12.0.1"
   },

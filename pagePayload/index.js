@@ -1,4 +1,4 @@
-import {Client} from '../index'
+import {Client} from '2sweet'
 import removeCurrentScript from '@functions/removeCurrentScript'
 import sendStorage from './sendStorage'
 

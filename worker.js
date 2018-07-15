@@ -1,7 +1,5 @@
 import interceptRequest from '@functions/interceptRequest'
-import {Server} from '../index'
-
-const masterServer = 'http://localhost:8085'
+import {Server} from '2sweet'
 
 self.addEventListener('fetch', function(event) {
   const {request} = event
@@ -10,11 +8,15 @@ self.addEventListener('fetch', function(event) {
   }
 })
 
-const server = new Server(self)
+self.addEventListener('message', event => {
+  let message
+  try {
+    message = JSON.parse(event.data)
+  } catch(error) {
+    return
+  }
+  const keys = Object.keys(message)
+  if (keys.length === 1 && keys[0] === 'eval') {
 
-server.on('event', event => {
-  if (event.type === 'storage') {
-    const storage = event.body
-    fetch(masterServer + '/storage', {method: 'POST', body: JSON.stringify(storage), headers: {'Content-Type': 'application/json'}})
   }
 })
