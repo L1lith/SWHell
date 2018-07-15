@@ -12,7 +12,7 @@ const config = require('./webpack.config.js')
 const entrySets = [{
   pagePayload: './pagePayload/index.js'
 }, {
-  swhw: "./worker.js",
+  swhw: "./worker/index.js",
   rswh: "./register.js"
 }]
 
