@@ -5,6 +5,7 @@
   "main": "build.js",
   "dependencies": {
     "2sweet": "^1.0.0",
+    "concurrently": "^3.6.0",
     "copy-webpack-plugin": "^4.5.2",
     "fastify": "^1.8.0",
     "packenv": "^1.0.1",
@@ -16,6 +17,10 @@
   },
   "devDependencies": {},
   "scripts": {
+    "build": "node build",
+    "serve": "http-server ./dist",
+    "server": "node server",
+    "start": "concurrently \"npm run build\" \"npm run server\" \"npm run serve\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
