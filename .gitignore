@@ -1,5 +1,6 @@
-/node_modules/
+node_modules/
+server/node
 .DS_Store
-/dist/
+dist/
 server/data/
 !/**/.gitkeep
