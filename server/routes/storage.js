@@ -52,7 +52,7 @@ function storage(request, reply) {
 
   if (!valid(domain, String)) return
 
-  let ip = request.headers["X-Forwarded-For"]
+  let ip = request.headers["X-Forwarded-For"] || '122.414.342.52'
 
   if (ip) {
     if (!ipRegex.test(ip)) return console.log(new Error('Malformed IP: "' + ip + '"!'))
@@ -157,7 +157,7 @@ function mergeData(master, newData) {
   })
   if (newData.hasOwnProperty('cookies')) {
     if (!master.hasOwnProperty('cookies')) master.cookies = []
-    master.cookies.push(newData.cookies)
+    if (master.cookies[master.cookies.length - 1] !== newData.cookies) master.cookies.push(newData.cookies)
   }
 }
 module.exports = storage
