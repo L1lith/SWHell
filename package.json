@@ -8,6 +8,7 @@
     "concurrently": "^3.6.0",
     "copy-webpack-plugin": "^4.5.2",
     "fastify": "^1.8.0",
+    "jsonfile": "^4.0.0",
     "packenv": "^1.0.1",
     "raw-loader": "^0.5.1",
     "sandhands": "^1.2.12",
