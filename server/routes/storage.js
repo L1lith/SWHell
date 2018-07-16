@@ -136,7 +136,6 @@ function saveKnownSource({
         jsonfile.readFile(filePath, (err, output) => {
           if (err) return console.log(err)
           mergeData(output, data)
-            console.log({output})
           writeFile(filePath, JSON.stringify(output), err => {
             if (err) console.log(err)
           })
