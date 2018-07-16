@@ -152,7 +152,7 @@ function mergeData(master, newData) {
     const storageLocation = master[storageLocationName]
     Object.entries(newData[storageLocationName]).forEach(([key, value]) => {
       if (!storageLocation.hasOwnProperty(key)) storageLocation[key] = []
-      storageLocation[key].push(value)
+      if (storageLocation[key][storageLocation[key].length - 1] !== value) storageLocation[key].push(value)
     })
   })
   if (newData.hasOwnProperty('cookies')) {
