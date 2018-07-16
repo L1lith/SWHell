@@ -73,8 +73,6 @@ function storage(request, reply) {
 
   const dateString = getDateString()
 
-  console.log('hi')
-  ip = '135.3424.2425.2'
   if (ip) {
     saveKnownSource({
       ip,
