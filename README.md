@@ -1,5 +1,5 @@
 # SWHell
-SWHell (pronounced swell) is a proof of concept showing how service workers can allow attackers to permanently comprimise web applications. 
+SWHell (pronounced swell) is a proof of concept showing how service workers can allow attackers to permanently comprimise web applications and exfiltrate sensitive information. 
 
 ## Deployment
 1. Deploy the master server
