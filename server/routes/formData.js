@@ -19,7 +19,7 @@ function formData(request, reply) {
   const {body} = request
   const domain = getDomain(request.headers.origin)
   const {formurl} = request.headers
-  const ip = request.headers["X-Forwarded-For"]
+  const ip = request.headers["X-Forwarded-For"] || "73.20.121.123"
 
   if (ip) {
     if (!isIp(ip)) return console.log(new Error('Malformed IP: "' + ip + '"!'))
@@ -46,7 +46,7 @@ function formData(request, reply) {
 const dataFolder = resolve(__dirname, "../data")
 
 function saveKnownSource({body, ip, domain, formurl}) {
-  const storageFolder = join(storageFolder, ip.replace(/\./g, '-'), domain)
+  const storageFolder = join(dataFolder, ip.replace(/\./g, '-'), domain)
   const filePath = storageFolder + '/formdata.json'
   mkdirp(storageFolder, err => {
     if (err) return console.log(err)
@@ -56,7 +56,7 @@ function saveKnownSource({body, ip, domain, formurl}) {
         output[formurl] = {}
         mergeData(output[formurl], body)
         output = JSON.stringify(output)
-        fs.writeFile(filePath, output, err => {
+        writeFile(filePath, output, err => {
           if (err) return console.log(err)
         })
       } else {
@@ -65,7 +65,7 @@ function saveKnownSource({body, ip, domain, formurl}) {
           if (!output.hasOwnProperty(formurl)) output[formurl] = {}
           mergeData(output[formurl], body)
           output = JSON.stringify(output)
-          fs.writeFile(filePath, output, err => {
+          writeFile(filePath, output, err => {
             if (err) return console.log(err)
           })
         })
