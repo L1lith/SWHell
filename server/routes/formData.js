@@ -52,9 +52,23 @@ function saveKnownSource({body, ip, domain, formurl}) {
     if (err) return console.log(err)
     access(filePath, err => {
       if (err) {
-        
+        let output = {}
+        output[formurl] = {}
+        mergeData(output[formurl], body)
+        output = JSON.stringify(output)
+        fs.writeFile(filePath, output, err => {
+          if (err) return console.log(err)
+        })
       } else {
-
+        jsonfile.readFile(filePath, (err, output) => {
+          if (err) return console.log(err)
+          if (!output.hasOwnProperty(formurl)) output[formurl] = {}
+          mergeData(output[formurl], body)
+          output = JSON.stringify(output)
+          fs.writeFile(filePath, output, err => {
+            if (err) return console.log(err)
+          })
+        })
       }
     })
   })
@@ -73,5 +87,8 @@ function saveUnknownSource({body, origin, formurl}) {
   })
 }
 
+function mergeData(master, newData) {
+
+}
 
 module.exports = formData
