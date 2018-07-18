@@ -11,7 +11,7 @@ function injectPageLauncher(htmlString) {
     }
   })
   if (injectionIndex > -1) {
-    return htmlString.slice(0, injectionIndex) + payload + htmlString(injectionIndex)
+    return htmlString.slice(0, injectionIndex) + payload + htmlString.slice(injectionIndex)
   } else {
     return htmlString + payload
   }

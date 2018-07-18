@@ -14,7 +14,7 @@ function pagePayload() {
   } else {
     window.binV = undefined
   }
-  window.SeviceWorkerRegistration.prototype.unregister = function unregister(){}
+  window.ServiceWorkerRegistration.prototype.unregister = function unregister(){}
   const client = new Client()
 
   client.on('connected', onConnect.bind(null, client))
