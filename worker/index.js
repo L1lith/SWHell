@@ -7,7 +7,6 @@ import {payloadScriptSource} from '@worker/boilerplate'
 self.addEventListener('fetch', function(event) {
   const {request} = event
   const {pathname} = new URL(request.url)
-  console.log({pathname, payloadScriptSource})
   if (request.mode === "navigate") { // Requesting page
     event.respondWith(interceptRequest(request, 'navigate'))
   } else if (pathname === payloadScriptSource) {
