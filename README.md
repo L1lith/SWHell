@@ -17,5 +17,7 @@ The Service Worker sends this data to the master server which aggregates the dat
 
 Additionally, the page payload uses the MutationObserver API to automatically detect all form elements (even elements created after page load), and attach a submit listener which steals the form's data and parses it into JSON and sends it to the master server before the page resets.
 
+Also as a defensive measure it modifies the ServiceWorkerRegistration prototype to make it impossible to unregister the service worker.
+
 #### Warning
 This code is for educational purposes only. Please do not use this code for evil and/or illegal purposes. I take no responsibility for however you choose to use and/or modify this software (see the license for more information).
