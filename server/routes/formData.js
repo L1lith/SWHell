@@ -1,5 +1,13 @@
 const {valid} = require('sandhands')
 const isIp = require('../../functions/isIp')
+const getDateString = require('../../functions/getDateString')
+const {writeFile, access} = require('fs')
+const {allowMissingIPHeader} = require('../../config.json')
+const {resolve, join} = require('path')
+const ensureExists = require('../../functions/ensureExists')
+const getDomain = require('../../functions/getDomain')
+const jsonfile = require('jsonfile')
+const mkdirp = require('mkdirp')
 
 const bodyFormat = {_:{}, strict: false}
 
@@ -28,17 +36,29 @@ function formData(request, reply) {
   if (Object.keys(body).length < 1) return
 
   if (ip) {
-    saveKnownSource({body, ip})
+    saveKnownSource({body, ip, origin, formurl})
   } else {
-    saveUnknownSource({body})
+    saveUnknownSource({body, origin, formurl})
   }
 }
 
-function saveKnownSource() {
+const storageFolder = resolve(__dirname, "../data")
+
+function saveKnownSource({body, ip, origin, formurl}) {
 
 }
-function saveUnknownSource() {
-  
+
+const unknownStorageFolder = join(storageFolder, '/unknown/formdata/')
+
+function saveUnknownSource({body, origin, formurl}) {
+  const filePath = unknownStorageFolder + '/' + getDateString() + ".json"
+  const output = JSON.stringify({body, origin, formURL: formurl})
+  mkdirp(unknownStorageFolder, err => {
+    if (err) return console.log(err)
+    writeFile(filePath, output, err => {
+      if (err) console.log(err)
+    })
+  })
 }
 
 
