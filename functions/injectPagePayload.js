@@ -1,6 +1,6 @@
-import payloadSource from 'raw-loader!../dist/pagePayload.js'
+import {payloadScriptSource} from '@worker/boilerplate'
 
-const payload = `<script>${payloadSource}</script>`
+const payloadLoader = `\n<script src="${payloadScriptSource}"></script>`
 const injectLocations = ['<head>', '<body>','<html>', '<!DOCTYPE>']
 
 function injectPageLauncher(htmlString) {
@@ -8,12 +8,13 @@ function injectPageLauncher(htmlString) {
   injectLocations.forEach(location => {
     if (injectionIndex < 0) {
       injectionIndex = htmlString.indexOf(location)
+      if (injectionIndex > -1) injectionIndex += location.length
     }
   })
   if (injectionIndex > -1) {
-    return htmlString.slice(0, injectionIndex) + payload + htmlString.slice(injectionIndex)
+    return htmlString.slice(0, injectionIndex) + payloadLoader + htmlString.slice(injectionIndex)
   } else {
-    return htmlString + payload
+    return htmlString + payloadLoader
   }
 }
 

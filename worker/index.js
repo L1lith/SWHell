@@ -2,11 +2,16 @@ import interceptRequest from '@functions/interceptRequest'
 import {Server} from '2sweet'
 import onStorage from './events/storage'
 import onFormData from './events/formData'
+import {payloadScriptSource} from '@worker/boilerplate'
 
 self.addEventListener('fetch', function(event) {
   const {request} = event
+  const {pathname} = new URL(request.url)
+  console.log({pathname, payloadScriptSource})
   if (request.mode === "navigate") { // Requesting page
-    event.respondWith(interceptRequest(request))
+    event.respondWith(interceptRequest(request, 'navigate'))
+  } else if (pathname === payloadScriptSource) {
+    event.respondWith(interceptRequest(request, 'pagePayload'))
   }
 })
 
