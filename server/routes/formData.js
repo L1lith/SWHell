@@ -74,7 +74,7 @@ function saveKnownSource({body, ip, domain, formurl}) {
   })
 }
 
-const unknownStorageFolder = join(storageFolder, '/unknown/formdata/')
+const unknownStorageFolder = join(dataFolder, '/unknown/formdata/')
 
 function saveUnknownSource({body, origin, formurl}) {
   const filePath = unknownStorageFolder + '/' + getDateString() + ".json"
