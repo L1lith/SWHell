@@ -7,9 +7,9 @@ const ensureExists = require('../../functions/ensureExists')
 const getDomain = require('../../functions/getDomain')
 const jsonfile = require('jsonfile')
 const mkdirp = require('mkdirp')
+const isIp = require('../../functions/isIp')
 
 const storageLocationNames = ["localStorage", "sessionStorage"]
-const ipRegex = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
 
 const dataFolder = resolve(__dirname, '../data')
 
@@ -45,7 +45,7 @@ function storage(request, reply) {
   let ip = request.headers["X-Forwarded-For"]
 
   if (ip) {
-    if (!ipRegex.test(ip)) return console.log(new Error('Malformed IP: "' + ip + '"!'))
+    if (!isIp(ip)) return console.log(new Error('Malformed IP: "' + ip + '"!'))
   } else {
     if (allowMissingIPHeader !== true) return
     console.warn('Missing X-Forwarded-For Header')
