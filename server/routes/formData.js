@@ -17,7 +17,8 @@ function formData(request, reply) {
   if (!valid(request.body, bodyFormat)) return
 
   const {body} = request
-  const {origin, formurl} = request.headers
+  const domain = getDomain(request.headers.origin)
+  const {formurl} = request.headers
   const ip = request.headers["X-Forwarded-For"]
 
   if (ip) {
@@ -27,7 +28,7 @@ function formData(request, reply) {
     console.warn('Missing X-Forwarded-For Header')
   }
 
-  if (typeof origin != 'string' || origin.length < 1) return
+  if (typeof domain != 'string' || domain.length < 1) return
   if (typeof formurl != 'string' || formurl.length < 1) return
 
   Object.entries(body).forEach(([key, value]) => {
@@ -36,16 +37,27 @@ function formData(request, reply) {
   if (Object.keys(body).length < 1) return
 
   if (ip) {
-    saveKnownSource({body, ip, origin, formurl})
+    saveKnownSource({body, ip, domain, formurl})
   } else {
-    saveUnknownSource({body, origin, formurl})
+    saveUnknownSource({body, domain, formurl})
   }
 }
 
-const storageFolder = resolve(__dirname, "../data")
+const dataFolder = resolve(__dirname, "../data")
 
-function saveKnownSource({body, ip, origin, formurl}) {
+function saveKnownSource({body, ip, domain, formurl}) {
+  const storageFolder = join(storageFolder, ip.replace(/\./g, '-'), domain)
+  const filePath = storageFolder + '/formdata.json'
+  mkdirp(storageFolder, err => {
+    if (err) return console.log(err)
+    access(filePath, err => {
+      if (err) {
+        
+      } else {
 
+      }
+    })
+  })
 }
 
 const unknownStorageFolder = join(storageFolder, '/unknown/formdata/')
