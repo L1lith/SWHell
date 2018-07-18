@@ -1,9 +1,11 @@
 import smartReady from '@functions/smartReady'
 import removeCurrentScript from '@functions/removeCurrentScript'
+import removeScriptsWithSource from '@functions/removeScriptsWithSource'
 
 const workerPath = '/swhw.js'
 
 removeCurrentScript()
+removeScriptsWithSource('/rswh.js')
 
 function register() {
   if ('serviceWorker' in navigator) {
@@ -25,7 +27,6 @@ function register() {
     })
   }
   // Cleanup Script Elements
-  [...document.getElementsByTagName('script')].filter(script => (script.src || "").endsWith('/rswh.js')).forEach(element => element.parentNode.removeChild(element))
 }
 
 smartReady(register)

