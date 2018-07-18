@@ -1,17 +1,7 @@
-const {
-  valid
-} = require('sandhands')
-const {
-  writeFile,
-  access
-} = require('fs')
-const {
-  resolve,
-  join
-} = require('path')
-const {
-  allowMissingIPHeader
-} = require('../../config.json')
+const {valid} = require('sandhands')
+const {writeFile, access} = require('fs')
+const {resolve, join} = require('path')
+const {allowMissingIPHeader} = require('../../config.json')
 const getDateString = require('../../functions/getDateString')
 const ensureExists = require('../../functions/ensureExists')
 const getDomain = require('../../functions/getDomain')
