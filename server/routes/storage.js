@@ -52,7 +52,7 @@ function storage(request, reply) {
 
   if (!valid(domain, String)) return
 
-  let ip = request.headers["X-Forwarded-For"] || '122.414.342.52'
+  let ip = request.headers["X-Forwarded-For"]
 
   if (ip) {
     if (!ipRegex.test(ip)) return console.log(new Error('Malformed IP: "' + ip + '"!'))
