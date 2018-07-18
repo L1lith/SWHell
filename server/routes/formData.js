@@ -88,7 +88,11 @@ function saveUnknownSource({body, origin, formurl}) {
 }
 
 function mergeData(master, newData) {
-
+  Object.entries(newData).forEach(([key, value]) => {
+    if (!master.hasOwnProperty(key)) master[key] = []
+    const storageLocation = master[key]
+    if (storageLocation[storageLocation.length - 1] !== value) storageLocation.push(value)
+  })
 }
 
 module.exports = formData
