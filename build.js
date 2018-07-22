@@ -35,11 +35,12 @@ async function run() {
   }
 }
 
-function watch(entries, mode="watch", callback, ...args) {
+function watch(entry, mode="watch", callback, ...args) {
   let built = false
-  const compiler = webpack({...config, entry: entries})
+  const compiler = webpack({...config, entry})
   return new Promise((resolve, reject) => {
-    compiler[mode](...args, (err, stats) => {
+    if (!["watch", "run"].includes(mode)) return reject(`Invalid Mode "${mode}"`)
+    compiler[mode](...(args.filter(value => typeof value == 'object' && value !== null).slice(0, 1)), (err, stats) => {
       if (built === false) {
         built = true
         if (err) return reject(err)
