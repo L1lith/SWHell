@@ -1,5 +1,7 @@
 const webpack = require('webpack')
 const args = require('yargs').argv
+const {unlink} = require('fs')
+const {join} = require('path')
 
 if ((args.production || args.prod || args.p) === true) {
   process.env.NODE_ENV = 'production'
@@ -31,7 +33,10 @@ async function run() {
   if (process.env.NODE_ENV !== 'production') {
     console.log('Finished Starting')
   } else {
-    console.log('Finished Building')
+    unlink(join(__dirname, '/dist/pagePayload.js'), err => {
+      if (err) return console.log(err)
+      console.log('Finished Building')
+    })
   }
 }
 
