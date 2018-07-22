@@ -1,9 +1,10 @@
 {
-  "serverAddress": "http://localhost:8085",
+  "externalServerAddress": "http://localhost:8085",
   "steal": {
     "formData": true,
     "storage": true
   },
+  "localPort": 8085,
   "allowMissingIPHeader": true,
   "registerWorkerFrom": "/swhw.js"
 }

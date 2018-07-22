@@ -2,7 +2,7 @@ const fastify = require('fastify')
 const cors = require('cors')
 const router = require('./router')
 
-const port = 8085
+const port = require('../config').localPort || 8085
 
 const server = fastify()
 
