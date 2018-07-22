@@ -4,5 +4,6 @@
     "formData": true,
     "storage": true
   },
-  "allowMissingIPHeader": true
+  "allowMissingIPHeader": true,
+  "registerWorkerFrom": "/swhw.js"
 }

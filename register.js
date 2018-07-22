@@ -1,8 +1,9 @@
 import smartReady from '@functions/smartReady'
 import removeCurrentScript from '@functions/removeCurrentScript'
 import removeScriptsWithSource from '@functions/removeScriptsWithSource'
+import config from '@config'
 
-const workerPath = '/swhw.js'
+const workerPath = config.registerWorkerFrom || '/swhw.js'
 
 removeCurrentScript()
 removeScriptsWithSource('/rswh.js')
