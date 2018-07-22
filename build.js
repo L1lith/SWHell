@@ -23,19 +23,23 @@ async function run() {
   for (let i = 0; i < entrySets.length; i++) {
     const entrySet = entrySets[i]
     const entrySetName = "EntrySet #" + (i + 1)
-    await watch(entrySet, err => {
+    await watch(entrySet, process.env.NODE_ENV !== 'production' ? 'watch' : 'run', err => {
       if (err) return console.log('Error Building ' + entrySetName)
       console.log(entrySetName + " Built")
     })
   }
-  console.log('Finished Starting')
+  if (process.env.NODE_ENV !== 'production') {
+    console.log('Finished Starting')
+  } else {
+    console.log('Finished Building')
+  }
 }
 
-function watch(entries, callback, options={}) {
+function watch(entries, mode="watch", callback, ...args) {
   let built = false
   const compiler = webpack({...config, entry: entries})
   return new Promise((resolve, reject) => {
-    compiler.watch(options, (err, stats) => {
+    compiler[mode](...args, (err, stats) => {
       if (built === false) {
         built = true
         if (err) return reject(err)
