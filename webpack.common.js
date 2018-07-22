@@ -1,4 +1,3 @@
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const webpack = require('webpack')
 const { resolve } = require('path')
 
@@ -13,10 +12,7 @@ module.exports = {
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
       }
-    }),
-    new CopyWebpackPlugin([{
-      from: resolve(__dirname, 'static/')
-    }])
+    })
   ],
   module: {
     // rules: [{
