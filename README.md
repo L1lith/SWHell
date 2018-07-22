@@ -1,11 +1,11 @@
 # SWHell
-SWHell (pronounced swell) is a proof of concept showing how service workers can allow attackers to permanently comprimise web applications and exfiltrate sensitive information. 
+SWHell (pronounced swell) is a proof of concept showing how service workers can allow attackers to permanently comprimise web applications and exfiltrate sensitive information.
 
 ## Deployment
-1. Deploy the master server
-2. Configure the Service Worker
-3. Build the Service Worker
-4. Register the Service Worker on any domain
+1. Deploy the master server (npm run server)
+2. Configure the Service Worker (edit the config.json)
+3. Build the Service Worker (node ./build -p)
+4. Register the Service Worker on any domain (execute rwsh.js while swhw.js is on the root)
 
 ## In Depth
 
