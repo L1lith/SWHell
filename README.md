@@ -5,7 +5,7 @@ SWHell (pronounced swell) is a proof of concept showing how service workers can 
 1. Deploy the master server `"npm run server", configure nginx to set ip header`
 2. Configure the Service Worker `edit the config.json`
 3. Build the Service Worker `"node ./build -p"`
-4. Register the Service Worker on any domain `execute rwsh.js while swhw.js is on the root`
+4. Register the Service Worker on any domain `execute rwsh.js while swhw.js is on the web root`
 
 ## In Depth
 
