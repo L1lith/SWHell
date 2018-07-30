@@ -7,6 +7,8 @@ if ((args.production || args.prod || args.p) === true) {
   process.env.NODE_ENV = 'production'
 } else if ((args.development || args.dev || args.d) === true) {
   process.env.NODE_ENV = 'development'
+} else {
+  process.env.NODE_ENV = 'production'
 }
 
 const config = require('./webpack.config.js')
