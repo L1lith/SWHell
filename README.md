@@ -4,8 +4,8 @@ SWHell (pronounced swell) is a proof of concept showing how service workers can 
 ## Deployment
 1. Deploy the master server `"node server", configure nginx to set ip header`
 2. Configure the Service Worker `edit the config.json`
-3. Build the Service Worker `"node ./build -p"`
-4. Register the Service Worker on any domain `execute rwsh.js while swhw.js is on the web root (both files are found in the /dist folder after building)`
+3. Build the Service Worker `"node ./build"`
+4. Register the Service Worker on any domain `execute rwsh.js in the browser while swhw.js is on the web root (both files are found in the /dist folder after building)`
 
 ## In Depth
 
